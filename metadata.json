@@ -1,0 +1,5 @@
+{
+  "name": "NodeGraph Visualizer",
+  "description": "A high-performance, web-based node visual programming environment using React and p5.js with a hybrid DOM/Canvas architecture.",
+  "requestFramePermissions": []
+}
