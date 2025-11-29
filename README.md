@@ -2,7 +2,7 @@
 
 # P5 Node Studio
 
-![NodeGraph Visualizer](screenshot.png)
+![NodeGraph Visualizer](assets/screenshot.png)
 
 The primary goal of this project is to revolutionize **p5.js** coding by introducing a **node graph style interface**. This approach adds a new layer of operability and visual logic construction to traditional creative coding, allowing you to build generative art and graphics with a modular, visual workflow.
 
