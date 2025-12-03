@@ -6,6 +6,10 @@
 
 The primary goal of this project is to revolutionize **p5.js** coding by introducing a **node graph style interface**. This approach adds a new layer of operability and visual logic construction to traditional creative coding, allowing you to build generative art and graphics with a modular, visual workflow.
 
+## Live Demo
+
+[Live Demo](https://p5-node-studio.web.app/)
+
 ## Features
 
 - **Node-Based Workflow**: Intuitively connect nodes to define data flow and transformations.
