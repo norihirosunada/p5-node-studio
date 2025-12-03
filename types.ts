@@ -3,12 +3,14 @@ import { LucideIcon } from 'lucide-react';
 export enum IOType {
   GEO = 'GEO',
   TEX = 'TEX',
+  VALUE = 'VALUE',
 }
 
 export enum NodeCategory {
   GEOMETRY = 'GEOMETRY',
   TEXTURE = 'TEXTURE',
   UTILITY = 'UTILITY',
+  VALUE = 'VALUE',
 }
 
 export interface NodeDefinition {
@@ -44,6 +46,7 @@ export interface EdgeData {
   source: string;
   target: string;
   inputIndex?: number; // Which input port this edge is connected to (default 0)
+  paramKey?: string; // If connected to a parameter
 }
 
 export interface LogEntry {

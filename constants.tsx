@@ -1,5 +1,5 @@
-import { 
-  Circle, Square, Move, ArrowRightCircle, Zap, Layers, Blend, Monitor 
+import {
+  Circle, Square, Move, ArrowRightCircle, Zap, Layers, Blend, Monitor, Activity
 } from 'lucide-react';
 import { IOType, NodeCategory, NodeDefinition } from './types';
 
@@ -135,35 +135,53 @@ pg.pop();`,
     pg.fill(100);
     pg.textAlign(p.CENTER, p.CENTER);
     pg.text("No Input", pg.width / 2, pg.height / 2);
-}`
+}`,
+
+  VAL_OSCILLATOR: `// @param frequency 1 0.1 10 0.1
+// @param amplitude 1 0 10 0.1
+// @param offset 0 -10 10 0.1
+// @param phase 0 0 6.28 0.1
+
+// Returns a value based on time
+// t is already passed as an argument (seconds)
+const val = Math.sin(t * params.frequency * Math.PI * 2 + params.phase) * params.amplitude + params.offset;
+
+// Visualize
+pg.background(0);
+pg.fill(255);
+pg.textAlign(p.CENTER, p.CENTER);
+pg.textSize(24);
+pg.text(val.toFixed(2), pg.width / 2, pg.height / 2);
+
+return val;`
 };
 
 export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
-  GEO_CIRCLE: { 
-    label: 'Geo Circle', 
+  GEO_CIRCLE: {
+    label: 'Geo Circle',
     type: IOType.GEO,
     category: NodeCategory.GEOMETRY,
     outputType: IOType.GEO,
-    icon: Circle, 
+    icon: Circle,
     defaultCode: CODE_TEMPLATES.GEO_CIRCLE,
     color: 'border-yellow-500 bg-yellow-900/60 shadow-yellow-900/20'
   },
-  GEO_RECT: { 
-    label: 'Geo Rect', 
+  GEO_RECT: {
+    label: 'Geo Rect',
     type: IOType.GEO,
     category: NodeCategory.GEOMETRY,
     outputType: IOType.GEO,
-    icon: Square, 
+    icon: Square,
     defaultCode: CODE_TEMPLATES.GEO_RECT,
     color: 'border-yellow-500 bg-yellow-900/60 shadow-yellow-900/20'
   },
-  GEO_TRANSFORM: { 
-    label: 'Geo Transform', 
+  GEO_TRANSFORM: {
+    label: 'Geo Transform',
     type: IOType.GEO,
     category: NodeCategory.GEOMETRY,
     inputType: IOType.GEO,
     outputType: IOType.GEO,
-    icon: Move, 
+    icon: Move,
     defaultCode: CODE_TEMPLATES.GEO_TRANSFORM,
     color: 'border-yellow-500 bg-yellow-900/60 shadow-yellow-900/20'
   },
@@ -177,32 +195,32 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     defaultCode: CODE_TEMPLATES.GEO_RENDER,
     color: 'border-green-500 bg-green-900/60 shadow-green-900/20'
   },
-  TEX_NOISE: { 
-    label: 'Tex Noise', 
+  TEX_NOISE: {
+    label: 'Tex Noise',
     type: IOType.TEX,
     category: NodeCategory.TEXTURE,
     outputType: IOType.TEX,
-    icon: Zap, 
+    icon: Zap,
     defaultCode: CODE_TEMPLATES.TEX_NOISE,
     color: 'border-blue-500 bg-blue-900/60 shadow-blue-900/20'
   },
-  TEX_TRANSFORM: { 
-    label: 'Tex Transform', 
+  TEX_TRANSFORM: {
+    label: 'Tex Transform',
     type: IOType.TEX,
     category: NodeCategory.TEXTURE,
     inputType: IOType.TEX,
     outputType: IOType.TEX,
-    icon: Move, 
+    icon: Move,
     defaultCode: CODE_TEMPLATES.TEX_TRANSFORM,
     color: 'border-blue-500 bg-blue-900/60 shadow-blue-900/20'
   },
-  TEX_PIXELATE: { 
-    label: 'Pixelate', 
+  TEX_PIXELATE: {
+    label: 'Pixelate',
     type: IOType.TEX,
     category: NodeCategory.TEXTURE,
     inputType: IOType.TEX,
     outputType: IOType.TEX,
-    icon: Layers, 
+    icon: Layers,
     defaultCode: CODE_TEMPLATES.TEX_PIXELATE,
     color: 'border-blue-500 bg-blue-900/60 shadow-blue-900/20'
   },
@@ -212,18 +230,27 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     category: NodeCategory.TEXTURE,
     inputType: IOType.TEX,
     outputType: IOType.TEX,
-    inputCount: 2, 
+    inputCount: 2,
     icon: Blend,
     defaultCode: CODE_TEMPLATES.TEX_COMPOSITE,
     color: 'border-purple-500 bg-purple-900/60 shadow-purple-900/20'
   },
-  FINAL_OUTPUT: { 
-    label: 'Final Output', 
+  FINAL_OUTPUT: {
+    label: 'Final Output',
     type: IOType.TEX,
     category: NodeCategory.UTILITY,
     inputType: IOType.TEX,
-    icon: Monitor, 
+    icon: Monitor,
     defaultCode: CODE_TEMPLATES.FINAL_OUTPUT,
     color: 'border-white bg-neutral-800 shadow-white/20'
   },
+  VAL_OSCILLATOR: {
+    label: 'Oscillator',
+    type: IOType.VALUE,
+    category: NodeCategory.VALUE,
+    outputType: IOType.VALUE,
+    icon: Activity,
+    defaultCode: CODE_TEMPLATES.VAL_OSCILLATOR,
+    color: 'border-pink-500 bg-pink-900/60 shadow-pink-900/20'
+  }
 };
