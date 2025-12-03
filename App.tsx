@@ -32,15 +32,13 @@ const App: React.FC = () => {
     initNode('geo1', 'GEO_CIRCLE', 300, 50),
     { ...initNode('geo_trans', 'GEO_TRANSFORM', 550, 50), params: { tx: 20, ty: 0, rotate: 0, scale: 1.0 }, paramConfigs: parseParamsFromCode(NODE_DEFINITIONS.GEO_TRANSFORM.defaultCode).configs },
     initNode('render1', 'GEO_RENDER', 800, 50),
-    initNode('out1', 'FINAL_OUTPUT', 1050, 50),
-    initNode('osc1', 'VAL_OSCILLATOR', 50, 50)
+    initNode('out1', 'FINAL_OUTPUT', 1050, 50)
   ]);
 
   const [edges, setEdges] = useState<EdgeData[]>([
     { id: 'e1', source: 'geo1', target: 'geo_trans', inputIndex: 0 },
     { id: 'e2', source: 'geo_trans', target: 'render1', inputIndex: 0 },
-    { id: 'e3', source: 'render1', target: 'out1', inputIndex: 0 },
-    { id: 'e4', source: 'osc1', target: 'geo1', paramKey: 'radius' }
+    { id: 'e3', source: 'render1', target: 'out1', inputIndex: 0 }
   ]);
 
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -313,8 +311,8 @@ const App: React.FC = () => {
         <button
           onClick={() => setShowBackground(!showBackground)}
           className={`p-2 rounded-lg backdrop-blur-md border transition-all ${showBackground
-              ? 'bg-white/20 border-white/40 text-white shadow-[0_0_15px_rgba(255,255,255,0.3)]'
-              : 'bg-black/40 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'
+            ? 'bg-white/20 border-white/40 text-white shadow-[0_0_15px_rgba(255,255,255,0.3)]'
+            : 'bg-black/40 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'
             }`}
           title="Toggle Background Output"
         >
