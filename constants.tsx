@@ -200,7 +200,7 @@ return val;`
 
 export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
   GEO_CIRCLE: {
-    label: 'Geo Circle',
+    label: 'Circle',
     type: IOType.GEO,
     category: NodeCategory.GEOMETRY,
     outputType: IOType.GEO,
@@ -209,7 +209,7 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     color: 'border-yellow-500 bg-yellow-900/60 shadow-yellow-900/20'
   },
   GEO_RECT: {
-    label: 'Geo Rect',
+    label: 'Rect',
     type: IOType.GEO,
     category: NodeCategory.GEOMETRY,
     outputType: IOType.GEO,
@@ -218,7 +218,7 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     color: 'border-yellow-500 bg-yellow-900/60 shadow-yellow-900/20'
   },
   GEO_TRANSFORM: {
-    label: 'Geo Transform',
+    label: 'Transform',
     type: IOType.GEO,
     category: NodeCategory.GEOMETRY,
     inputType: IOType.GEO,
@@ -228,7 +228,7 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     color: 'border-yellow-500 bg-yellow-900/60 shadow-yellow-900/20'
   },
   GEO_RENDER: {
-    label: 'Geo Render',
+    label: 'Render',
     type: IOType.TEX,
     category: NodeCategory.UTILITY,
     inputType: IOType.GEO,
@@ -238,7 +238,7 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     color: 'border-green-500 bg-green-900/60 shadow-green-900/20'
   },
   TEX_NOISE: {
-    label: 'Tex Noise',
+    label: 'Noise',
     type: IOType.TEX,
     category: NodeCategory.TEXTURE,
     outputType: IOType.TEX,
@@ -247,7 +247,7 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     color: 'border-blue-500 bg-blue-900/60 shadow-blue-900/20'
   },
   TEX_TRANSFORM: {
-    label: 'Tex Transform',
+    label: 'Transform',
     type: IOType.TEX,
     category: NodeCategory.TEXTURE,
     inputType: IOType.TEX,
