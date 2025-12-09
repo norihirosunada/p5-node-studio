@@ -1,5 +1,5 @@
 import {
-  Circle, Square, Move, ArrowRightCircle, Zap, Layers, Blend, Monitor, Activity
+  Circle, Square, Move, ArrowRightCircle, Zap, Layers, Blend, Monitor, Activity, ToggleLeft
 } from 'lucide-react';
 import { IOType, NodeCategory, NodeDefinition } from './types';
 
@@ -121,11 +121,53 @@ if (inputs[1]) {
 }
 
 pg.push();
+  pg.fill(255);
+  pg.stroke(0);
+  pg.strokeWeight(2);
+  pg.textSize(12);
+  pg.text(modeName, 10, pg.height - 10);
+  pg.pop();`,
+
+  TEX_SWITCH: `// Switch between multiple texture inputs using number keys
+const totalInputs = Math.max(inputs.length, 1);
+pg._activeIndex = Number.isFinite(pg._activeIndex) ? pg._activeIndex : 0;
+
+// Hotkeys: 1-9 select specific slots, arrows cycle
+for (let i = 0; i < Math.min(totalInputs, 9); i++) {
+    if (keys.wasPressed(String(i + 1))) {
+        pg._activeIndex = i;
+    }
+}
+
+if (keys.wasPressed('ArrowRight')) {
+    pg._activeIndex = (pg._activeIndex + 1) % totalInputs;
+}
+if (keys.wasPressed('ArrowLeft')) {
+    pg._activeIndex = (pg._activeIndex - 1 + totalInputs) % totalInputs;
+}
+
+pg._activeIndex = Math.max(0, Math.min(pg._activeIndex, totalInputs - 1));
+
+pg.clear();
+const current = inputs[pg._activeIndex];
+
+if (current) {
+    pg.image(current, 0, 0, pg.width, pg.height);
+} else {
+    pg.background(10);
+    pg.fill(120);
+    pg.textAlign(p.CENTER, p.CENTER);
+    pg.text('Connect textures', pg.width / 2, pg.height / 2);
+}
+
+pg.push();
+pg.fill(0, 180);
+pg.noStroke();
+pg.rect(8, 8, 100, 26, 6);
 pg.fill(255);
-pg.stroke(0);
-pg.strokeWeight(2);
 pg.textSize(12);
-pg.text(modeName, 10, pg.height - 10);
+pg.textAlign(p.LEFT, p.CENTER);
+pg.text('Slot ' + (pg._activeIndex + 1), 14, 21);
 pg.pop();`,
 
   FINAL_OUTPUT: `if (input) {
@@ -234,6 +276,18 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     icon: Blend,
     defaultCode: CODE_TEMPLATES.TEX_COMPOSITE,
     color: 'border-purple-500 bg-purple-900/60 shadow-purple-900/20'
+  },
+  TEX_SWITCH: {
+    label: 'Tex Switch',
+    type: IOType.TEX,
+    category: NodeCategory.TEXTURE,
+    inputType: IOType.TEX,
+    outputType: IOType.TEX,
+    inputCount: 4,
+    icon: ToggleLeft,
+    previewHint: '1-4 / ←→',
+    defaultCode: CODE_TEMPLATES.TEX_SWITCH,
+    color: 'border-blue-500 bg-blue-900/60 shadow-blue-900/20'
   },
   FINAL_OUTPUT: {
     label: 'Final Output',

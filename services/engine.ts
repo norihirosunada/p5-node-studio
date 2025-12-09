@@ -15,6 +15,10 @@ export class NodeEngine {
   private nodes: NodeData[] = [];
   private edges: EdgeData[] = [];
   private logCallback: ((msg: string, type: 'info' | 'error' | 'success') => void) | null = null;
+  private pressedKeys: Set<string> = new Set();
+  private justPressedKeys: Set<string> = new Set();
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+  private keyupHandler: ((e: KeyboardEvent) => void) | null = null;
 
   // Interactive State
   public connectingSource: string | null = null;
@@ -39,6 +43,9 @@ export class NodeEngine {
     this.graphicsBuffers.clear();
     this.compiledFunctions.clear();
     this.nodeDataCache.clear();
+
+    if (this.keydownHandler) window.removeEventListener('keydown', this.keydownHandler);
+    if (this.keyupHandler) window.removeEventListener('keyup', this.keyupHandler);
   }
 
   private initP5(container: HTMLElement) {
@@ -89,6 +96,8 @@ export class NodeEngine {
     };
 
     this.p5Instance = new p5Class(sketch);
+
+    this.bindKeyboard();
   }
 
   private drawGrid(p: any) {
@@ -188,6 +197,26 @@ export class NodeEngine {
     p.bezier(startX, startY, cp1x, startY, cp2x, endY, endX, endY);
   }
 
+  private bindKeyboard() {
+    this.keydownHandler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+
+      if (!this.pressedKeys.has(e.key)) {
+        this.justPressedKeys.add(e.key);
+      }
+      this.pressedKeys.add(e.key);
+    };
+
+    this.keyupHandler = (e: KeyboardEvent) => {
+      this.pressedKeys.delete(e.key);
+    };
+
+    window.addEventListener('keydown', this.keydownHandler);
+    window.addEventListener('keyup', this.keyupHandler);
+  }
+
   private processNodes(p: any) {
     // 1. Cleanup unused buffers
     const activeIds = new Set(this.nodes.map(n => n.id));
@@ -259,6 +288,9 @@ export class NodeEngine {
         }
       }
     });
+
+    // Clear one-shot key presses after processing
+    this.justPressedKeys.clear();
   }
 
   private executeNode(p: any, pg: any, node: NodeData, inputs: any[], params: any) {
@@ -268,7 +300,7 @@ export class NodeEngine {
     if (!compiled || compiled.code !== node.code) {
       try {
         // Creating a safe-ish execution context
-        const fn = new Function('p', 'pg', 't', 'input', 'inputs', 'params', 'log', node.code);
+        const fn = new Function('p', 'pg', 't', 'input', 'inputs', 'params', 'log', 'keys', node.code);
         compiled = { code: node.code, fn };
         this.compiledFunctions.set(node.id, compiled);
       } catch (e: any) {
@@ -290,6 +322,13 @@ export class NodeEngine {
       pg.imageMode(p.CORNER);
       pg.textAlign(p.LEFT, p.BASELINE);
 
+      const keys = {
+        pressed: new Set(this.pressedKeys),
+        justPressed: new Set(this.justPressedKeys),
+        isDown: (k: string) => this.pressedKeys.has(k),
+        wasPressed: (k: string) => this.justPressedKeys.has(k)
+      };
+
       // Execute
       const result = compiled.fn(
         p,
@@ -298,7 +337,8 @@ export class NodeEngine {
         inputs[0], // Convenience for single input
         inputs,
         params,
-        (m: string) => this.logCallback && this.logCallback(m, 'info')
+        (m: string) => this.logCallback && this.logCallback(m, 'info'),
+        keys
       );
       pg.pop();
 

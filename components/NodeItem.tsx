@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { NodeData, NodeDefinition, IOType } from '../types';
 import { NODE_DEFINITIONS, NODE_WIDTH, PREVIEW_HEIGHT } from '../constants';
-import { Code, Trash2 } from 'lucide-react';
+import { Code, Trash2, Keyboard } from 'lucide-react';
 
 interface NodeItemProps {
   node: NodeData;
@@ -60,6 +60,13 @@ const NodeItem: React.FC<NodeItemProps> = memo(({ node, connectedInputs, connect
           className="w-full h-full object-cover block"
           style={{ imageRendering: 'pixelated' }}
         />
+
+        {def.previewHint && (
+          <div className="absolute left-2 top-2 flex items-center gap-1 px-2 py-1 rounded bg-black/70 text-[10px] text-gray-200">
+            <Keyboard size={12} className="opacity-80" />
+            <span className="font-semibold tracking-wide">{def.previewHint}</span>
+          </div>
+        )}
 
         {/* Dynamic Input Ports */}
         {inputPorts.map((_, index) => {

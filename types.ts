@@ -23,6 +23,7 @@ export interface NodeDefinition {
   icon: LucideIcon;
   defaultCode: string;
   color: string;
+  previewHint?: string;
 }
 
 export interface ParamConfig {

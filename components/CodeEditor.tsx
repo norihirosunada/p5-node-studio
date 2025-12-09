@@ -42,7 +42,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ isOpen, initialCode, nodeTitle,
 
         <div className="h-12 border-t border-neutral-800 flex items-center justify-end px-4 gap-3 bg-neutral-950 rounded-b-lg">
           <span className="text-xs text-gray-600 mr-auto hidden sm:block">
-            Available: p, pg, inputs, params, log
+            Available: p, pg, inputs, params, log, keys
           </span>
           <button 
             onClick={onClose}
