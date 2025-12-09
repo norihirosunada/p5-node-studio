@@ -278,7 +278,7 @@ export const NODE_DEFINITIONS: Record<string, NodeDefinition> = {
     color: 'border-purple-500 bg-purple-900/60 shadow-purple-900/20'
   },
   TEX_SWITCH: {
-    label: 'Tex Switch',
+    label: 'Switcher',
     type: IOType.TEX,
     category: NodeCategory.TEXTURE,
     inputType: IOType.TEX,
